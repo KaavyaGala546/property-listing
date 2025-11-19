@@ -1,0 +1,65 @@
+# --- OS / Editor junk ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- Node / monorepo ---
+node_modules/
+**/node_modules/
+
+# --- Logs ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Runtime data ---
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# --- Coverage ---
+coverage/
+.nyc_output/
+
+# --- Build outputs ---
+dist/
+build/
+lib/
+.cache/
+
+# --- Next.js ---
+.next/
+**/.next/
+out/
+.vercel/
+
+# --- Environment files ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env.local
+# keep examples committed
+!.env.example
+!server/.env.example
+
+# --- Tooling caches ---
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# --- Package managers ---
+.pnp.*
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
