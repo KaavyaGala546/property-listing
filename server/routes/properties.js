@@ -18,13 +18,22 @@ function loadSampleProperties() {
 
 // GET /api/properties
 // If DB has entries, return from DB; otherwise return sample JSON
-// Supports query params: ?location=&type=&minPrice=&maxPrice=&bedrooms=
+// Supports query params: ?page=&limit=&location=&type=&minPrice=&maxPrice=&bedrooms=
 router.get('/', async (req, res) => {
   try {
-    const { location, type, minPrice, maxPrice, bedrooms, search } = req.query;
+    const { 
+      page = 1, 
+      limit = 10,  // Changed from 9 to 10 properties per page
+      location, 
+      type, 
+      minPrice, 
+      maxPrice, 
+      bedrooms, 
+      search 
+    } = req.query;
     
     const count = await Property.countDocuments();
-    let props;
+    let props, total = 0;
     
     if (count > 0) {
       const filter = {};
@@ -40,7 +49,9 @@ router.get('/', async (req, res) => {
         ];
       }
       
-      props = await Property.find(filter).lean();
+      // Get all matching properties first
+      let query = Property.find(filter).lean();
+      props = await query.exec();
       
       // Filter by price if needed (prices are strings like "$690,000")
       if (minPrice || maxPrice) {
@@ -52,7 +63,20 @@ router.get('/', async (req, res) => {
         });
       }
       
-      return res.json(props);
+      // Get total count after all filters
+      total = props.length;
+      
+      // Apply pagination
+      const skip = (parseInt(page) - 1) * parseInt(limit);
+      props = props.slice(skip, skip + parseInt(limit));
+      
+      return res.json({
+        properties: props,
+        total,
+        page: parseInt(page),
+        totalPages: Math.ceil(total / parseInt(limit)),
+        limit: parseInt(limit)
+      });
     }
 
     // Fallback to sample data with filtering
@@ -70,7 +94,20 @@ router.get('/', async (req, res) => {
       );
     }
     
-    return res.json(sample);
+    // Apply pagination to sample data
+    const pageNum = parseInt(page) || 1;
+    const limitNum = parseInt(limit) || 9;
+    const startIndex = (pageNum - 1) * limitNum;
+    const endIndex = startIndex + limitNum;
+    const paginatedSample = sample.slice(startIndex, endIndex);
+    
+    return res.json({
+      properties: paginatedSample,
+      total: sample.length,
+      page: pageNum,
+      totalPages: Math.ceil(sample.length / limitNum),
+      limit: limitNum
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
