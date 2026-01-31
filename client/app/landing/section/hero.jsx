@@ -7,10 +7,10 @@ export default function EstatesWebsite() {
    
   
   const agents = [
-    { id: 1, img: "https://images.unsplash.com/photo-1643555388236-d0031659d3e4?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", name: "Agent 1" },
-    { id: 2, img: "https://images.unsplash.com/photo-1643555388236-d0031659d3e4?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", name: "Agent 2" },
+    { id: 1, img: "https://images.unsplash.com/photo-1681622341243-f57c21b519f3?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG90JTIwY29ycG9yYXRlJTIwZ2lybHMlMjBwcm9maWxlfGVufDB8MXwwfHx8MA%3D%3D", name: "Agent 1" },
+    { id: 2, img: "https://images.pexels.com/photos/11847763/pexels-photo-11847763.jpeg", name: "Agent 2" },
     { id: 3, img: "https://images.unsplash.com/photo-1643555388236-d0031659d3e4?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", name: "Agent 3" },
-    { id: 4, img: "https://images.unsplash.com/photo-1643555388236-d0031659d3e4?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", name: "Agent 4" },
+    { id: 4, img: "https://images.pexels.com/photos/10542445/pexels-photo-10542445.jpeg", name: "Agent 4" },
   ];
 
   return (

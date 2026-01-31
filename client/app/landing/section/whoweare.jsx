@@ -44,7 +44,7 @@ export default function WhoWeAre() {
           {/* Image */}
           <div>
             <img
-              src="https://images.unsplash.com/photo-1555432782-efda97a5088a?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="https://images.pexels.com/photos/10423571/pexels-photo-10423571.jpeg"
               alt="Team"
               className="rounded-2xl shadow-md object-cover w-full h-full"
             />

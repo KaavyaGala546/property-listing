@@ -8,17 +8,17 @@ const experts = [
     img: "https://images.unsplash.com/photo-1623880840102-7df0a9f3545b?q=80&w=2184&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Charlotte Morgan",
+    name: "James Morgan",
     role: "High-End Property Consultant",
     img: "https://images.unsplash.com/photo-1654279511005-eb0531f49dce?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Sophia Rivera",
+    name: "Liam Carter",
     role: "Sustainable Housing Consultant",
     img: "https://images.unsplash.com/photo-1661588698602-da41ee4fc846?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
-    name: "Liam Carter",
+    name: "Sophia Rivera",
     role: "Commercial Real Estate Agent",
     img: "https://images.unsplash.com/photo-1636191284490-fff58f369ec6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
