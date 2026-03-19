@@ -6,7 +6,8 @@ A full-stack web application for browsing, searching, and managing real estate l
 
 ## 🚀 Live Demo
 
-🔗 property-listing-amber.vercel.app
+🔗 https://your-deployment-link.vercel.app
+(Replace with your actual link)
 
 ---
 
