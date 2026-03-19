@@ -141,12 +141,16 @@ npm run dev
 
 ## 🖼️ Screenshots
 
-*Add screenshots here:*
+## 🖼️ Screenshots
 
-* Homepage
-* Property listings
-* Login / Signup
-* User dashboard
+### 🏠 Homepage
+![Homepage](assets/screenshots/homepage.png)
+
+### 📚 Property Listings
+![Property Library](assets/screenshots/property_library.png)
+
+### 📞 Book a Call
+![Book a Call](assets/screenshots/book_a_call.png)
 
 ---
 
