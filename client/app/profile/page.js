@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { User, Mail, Calendar, LogOut, Settings, Home, Heart, Trash2 } from "lucide-react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
 export default function ProfilePage() {
   const router = useRouter();
