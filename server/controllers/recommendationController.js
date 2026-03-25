@@ -3,19 +3,24 @@ const Cart = require('../models/Cart');
 
 exports.getRecommendations = async (req, res) => {
   try {
+    if (process.env.DB_MOCK_MODE === 'true') {
+      try {
+        const localData = require('../data/properties.json');
+        return res.json(localData.slice(0, 6).map(p => ({ ...p, isRecommended: true })));
+      } catch (e) {
+        console.error('Local data load failed', e);
+      }
+    }
+
     const userId = req.userId;
     let recommended = [];
 
     if (userId && userId !== 'mock-user-id') {
-      // Find properties already in user's cart to understand preferences
       const userCart = await Cart.find({ userId });
       const savedPropertyIds = userCart.map(item => item.propertyId);
 
       if (savedPropertyIds.length > 0) {
-        // Get details of saved properties
         const savedProperties = await Property.find({ _id: { $in: savedPropertyIds } });
-        
-        // Find similar properties (by type and location)
         const types = [...new Set(savedProperties.map(p => p.type))];
         const locations = [...new Set(savedProperties.map(p => p.location))];
 
@@ -29,7 +34,6 @@ exports.getRecommendations = async (req, res) => {
       }
     }
 
-    // Fallback: If no personal recommendations, return "trending" (most recent/random)
     if (recommended.length < 3) {
       const more = await Property.find({
         _id: { $nin: recommended.map(p => p._id) }

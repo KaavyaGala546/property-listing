@@ -134,6 +134,9 @@ export default function PropertiesPage() {
           </p>
         </div>
 
+        {/* Recommendations Section */}
+        <Recommendations />
+
         {/* Search Component */}
         <div className="mb-8">
           <PropertySearch
