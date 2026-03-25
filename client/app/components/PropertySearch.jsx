@@ -1,18 +1,18 @@
-"use client";
-import { useState, useCallback, useRef, useEffect } from "react";
-import { Search, MapPin, Home, Bed, DollarSign } from "lucide-react";
+'use client';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { Search, MapPin, Home, Bed, DollarSign } from 'lucide-react';
 import { properties as localProperties } from '../data/properties';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
 export default function PropertySearch({ onResults, useLocalData = false }) {
   const [filters, setFilters] = useState({
-    search: "",
-    location: "",
-    type: "",
-    bedrooms: "",
-    minPrice: "",
-    maxPrice: ""
+    search: '',
+    location: '',
+    type: '',
+    bedrooms: '',
+    minPrice: '',
+    maxPrice: '',
   });
   const [loading, setLoading] = useState(false);
   const searchTimeoutRef = useRef(null);
@@ -23,34 +23,33 @@ export default function PropertySearch({ onResults, useLocalData = false }) {
     // Search filter
     if (filters.search) {
       const searchLower = filters.search.toLowerCase();
-      filtered = filtered.filter(p => 
-        p.title.toLowerCase().includes(searchLower) ||
-        p.location.toLowerCase().includes(searchLower) ||
-        p.description.toLowerCase().includes(searchLower)
+      filtered = filtered.filter(
+        (p) =>
+          p.title.toLowerCase().includes(searchLower) ||
+          p.location.toLowerCase().includes(searchLower) ||
+          p.description.toLowerCase().includes(searchLower)
       );
     }
 
     // Location filter
     if (filters.location) {
       const locationLower = filters.location.toLowerCase();
-      filtered = filtered.filter(p => 
-        p.location.toLowerCase().includes(locationLower)
-      );
+      filtered = filtered.filter((p) => p.location.toLowerCase().includes(locationLower));
     }
 
     // Type filter
     if (filters.type) {
-      filtered = filtered.filter(p => p.type === filters.type);
+      filtered = filtered.filter((p) => p.type === filters.type);
     }
 
     // Bedrooms filter
     if (filters.bedrooms) {
-      filtered = filtered.filter(p => p.bedrooms >= parseInt(filters.bedrooms));
+      filtered = filtered.filter((p) => p.bedrooms >= parseInt(filters.bedrooms));
     }
 
     // Price range filter
     if (filters.minPrice || filters.maxPrice) {
-      filtered = filtered.filter(p => {
+      filtered = filtered.filter((p) => {
         const price = parseInt(p.price.replace(/[$,]/g, ''));
         const min = filters.minPrice ? parseInt(filters.minPrice) : 0;
         const max = filters.maxPrice ? parseInt(filters.maxPrice) : Infinity;
@@ -61,69 +60,72 @@ export default function PropertySearch({ onResults, useLocalData = false }) {
     return filtered;
   };
 
-  const handleSearch = useCallback(async (e) => {
-    e?.preventDefault();
-    
-    // Clear any pending timeout
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-    }
-    
-    setLoading(true);
-    
-    try {
-      if (useLocalData) {
-        // Use local filtering
-        const filtered = filterLocalProperties();
-        if (onResults) onResults(filtered);
-      } else {
-        // Use API
-        const params = new URLSearchParams();
-        Object.entries(filters).forEach(([key, value]) => {
-          if (value) params.append(key, value);
-        });
-        
-        const res = await fetch(`${API_BASE}/api/properties?${params.toString()}`);
-        
-        if (res.ok) {
-          const data = await res.json();
-          if (onResults) onResults(data);
-        } else {
-          // Fallback to local filtering if API fails
+  const handleSearch = useCallback(
+    async (e) => {
+      e?.preventDefault();
+
+      // Clear any pending timeout
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+
+      setLoading(true);
+
+      try {
+        if (useLocalData) {
+          // Use local filtering
           const filtered = filterLocalProperties();
           if (onResults) onResults(filtered);
+        } else {
+          // Use API
+          const params = new URLSearchParams();
+          Object.entries(filters).forEach(([key, value]) => {
+            if (value) params.append(key, value);
+          });
+
+          const res = await fetch(`${API_BASE}/api/properties?${params.toString()}`);
+
+          if (res.ok) {
+            const data = await res.json();
+            if (onResults) onResults(data);
+          } else {
+            // Fallback to local filtering if API fails
+            const filtered = filterLocalProperties();
+            if (onResults) onResults(filtered);
+          }
         }
+      } catch (err) {
+        console.error('Search failed, using local filtering', err);
+        // Fallback to local filtering
+        const filtered = filterLocalProperties();
+        if (onResults) onResults(filtered);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Search failed, using local filtering", err);
-      // Fallback to local filtering
-      const filtered = filterLocalProperties();
-      if (onResults) onResults(filtered);
-    } finally {
-      setLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, useLocalData]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [filters, useLocalData]
+  );
 
   // Debounced search trigger
   const triggerSearch = useCallback(() => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
-    
+
     searchTimeoutRef.current = setTimeout(() => {
       handleSearch();
     }, 500); // 500ms debounce
   }, [handleSearch]);
 
   const updateFilter = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   // Auto-trigger search when filters change
   useEffect(() => {
     // Only trigger if at least one filter has a value
-    const hasFilters = Object.values(filters).some(val => val !== "");
+    const hasFilters = Object.values(filters).some((val) => val !== '');
     if (hasFilters) {
       triggerSearch();
     } else if (onResults) {
@@ -205,7 +207,7 @@ export default function PropertySearch({ onResults, useLocalData = false }) {
             disabled={loading}
             className="bg-black text-white py-2 px-6 rounded-lg hover:bg-gray-900 transition-colors disabled:opacity-60 text-sm font-medium"
           >
-            {loading ? "Searching..." : "Search"}
+            {loading ? 'Searching...' : 'Search'}
           </button>
         </div>
 

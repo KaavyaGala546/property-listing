@@ -10,7 +10,8 @@ const router = express.Router();
 router.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ message: 'Email and password required' });
+    if (!email || !password)
+      return res.status(400).json({ message: 'Email and password required' });
 
     const existing = await User.findOne({ email });
     if (existing) return res.status(400).json({ message: 'User already exists' });
@@ -21,7 +22,7 @@ router.post('/signup', async (req, res) => {
     const user = new User({ name, email, password: hashed });
     await user.save();
 
-     const token = jwt.sign(
+    const token = jwt.sign(
       { id: user._id.toString(), email: user.email, name: user.name },
       process.env.JWT_SECRET || 'dev_secret',
       { expiresIn: '7d' }
@@ -37,7 +38,8 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ message: 'Email and password required' });
+    if (!email || !password)
+      return res.status(400).json({ message: 'Email and password required' });
 
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
@@ -66,14 +68,14 @@ router.get('/me', auth, async (req, res) => {
   try {
     const user = await User.findById(req.userId).select('-password');
     if (!user && req.userId === 'mock-user-id') {
-       return res.json({ id: 'mock-user-id', email: 'mock@example.com', name: 'Mock User' });
+      return res.json({ id: 'mock-user-id', email: 'mock@example.com', name: 'Mock User' });
     }
     res.json(user);
   } catch (err) {
     console.error(err);
     // Fallback for UI testing if DB is down
     if (req.userId === 'mock-user-id' || err.message.includes('ENOTFOUND')) {
-        return res.json({ id: 'mock-user-id', email: 'mock@example.com', name: 'Mock User' });
+      return res.json({ id: 'mock-user-id', email: 'mock@example.com', name: 'Mock User' });
     }
     res.status(500).json({ message: 'Server error' });
   }

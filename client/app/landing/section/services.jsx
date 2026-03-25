@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import React from 'react';
 import { FaKey, FaBalanceScale, FaChartLine, FaCogs, FaHandshake, FaTags } from 'react-icons/fa';
 
@@ -37,14 +37,17 @@ const services = [
 
 const RealEstateServices = () => {
   return (
-    <div id='services' className="bg-white py-16 px-6 md:px-20 text-center">
+    <div id="services" className="bg-white py-16 px-6 md:px-20 text-center">
       <button className="px-4 py-1 text-sm border rounded-full mb-4">Why Choose Us</button>
       <h2 className="text-3xl md:text-4xl font-bold leading-tight mb-10">
         EXPLORE OUR RANGE OF <br /> EXPERT REAL ESTATE SERVICES
       </h2>
       <div className="grid md:grid-cols-3 gap-6">
         {services.map((service, index) => (
-          <div key={index} className="bg-gray-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div
+            key={index}
+            className="bg-gray-100 rounded-2xl p-6 text-left shadow-sm hover:shadow-md transition-shadow duration-300"
+          >
             <div className="bg-white p-2 rounded-full w-fit mb-4">{service.icon}</div>
             <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
             <p className="text-sm text-gray-600">{service.description}</p>

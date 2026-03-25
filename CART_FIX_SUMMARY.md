@@ -1,6 +1,7 @@
 # Cart System - Fixed Issues
 
 ## Problem
+
 - PropertyCard showing 400 Bad Request when adding properties to cart
 - Saved properties not showing up in profile
 - Cart count not updating in navbar
@@ -8,17 +9,21 @@
 ## Root Causes Identified
 
 ### 1. **Duplicate Cart Entries** (400 Error)
+
 The 400 error was caused by trying to add a property that was already in the cart. The unique index on `(userId, propertyId)` in the Cart model was preventing duplicates.
 
 ### 2. **Missing Cart State Check**
+
 PropertyCard wasn't checking if the property was already in the cart on mount, so the heart icon didn't reflect the actual cart state.
 
 ### 3. **No Real-time Updates**
+
 When adding/removing properties, the navbar cart count wasn't updating without a page refresh.
 
 ## Solutions Implemented
 
 ### ✅ 1. PropertyCard Auto-Check Cart Status
+
 **File:** `client/app/components/properties/PropertyCard.jsx`
 
 - Added `useEffect` hook that checks cart status on component mount
@@ -29,7 +34,7 @@ When adding/removing properties, the navbar cart count wasn't updating without a
 ```javascript
 useEffect(() => {
   const checkCartStatus = async () => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!token) return;
 
     const res = await fetch(`${API_BASE}/api/cart/check/${property._id || property.id}`, {
@@ -45,6 +50,7 @@ useEffect(() => {
 ```
 
 ### ✅ 2. Better Error Handling
+
 **File:** `client/app/components/properties/PropertyCard.jsx`
 
 - Now parses response JSON to get error messages
@@ -63,6 +69,7 @@ if (res.ok) {
 ```
 
 ### ✅ 3. Real-time Navbar Updates
+
 **File:** `client/components/navbar.jsx`
 
 - Listens for `cartUpdated` custom events
@@ -72,18 +79,19 @@ if (res.ok) {
 ```javascript
 useEffect(() => {
   checkAuth();
-  
+
   const handleCartUpdate = () => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (token) fetchCartCount(token);
   };
-  
+
   window.addEventListener('cartUpdated', handleCartUpdate);
   return () => window.removeEventListener('cartUpdated', handleCartUpdate);
 }, []);
 ```
 
 ### ✅ 4. Profile Page Property Removal
+
 **File:** `client/app/profile/page.js`
 
 - Fixed property ID extraction for deletion
@@ -91,14 +99,14 @@ useEffect(() => {
 - Triggers navbar cart count update on removal
 
 ```javascript
-const actualPropertyId = itemToRemove.propertyId?._id || 
-                        itemToRemove.propertyId?.id || 
-                        itemToRemove.propertyId;
+const actualPropertyId =
+  itemToRemove.propertyId?._id || itemToRemove.propertyId?.id || itemToRemove.propertyId;
 ```
 
 ## How It Works Now
 
 ### Adding Property to Cart
+
 1. User clicks heart icon
 2. PropertyCard checks if already in cart (shows error gracefully)
 3. If not in cart, POST to `/api/cart` with propertyId
@@ -108,6 +116,7 @@ const actualPropertyId = itemToRemove.propertyId?._id ||
 7. Navbar listens and updates cart count badge
 
 ### Removing Property from Cart
+
 1. User clicks red heart or trash icon in profile
 2. DELETE request to `/api/cart/:propertyId`
 3. Backend removes from database
@@ -116,6 +125,7 @@ const actualPropertyId = itemToRemove.propertyId?._id ||
 6. Navbar updates cart count
 
 ### Cart State Persistence
+
 - Every PropertyCard checks cart status on mount
 - Uses `/api/cart/check/:propertyId` endpoint
 - Heart icon always reflects actual database state
@@ -124,18 +134,21 @@ const actualPropertyId = itemToRemove.propertyId?._id ||
 ## Testing Steps
 
 ### 1. Start Backend
+
 ```bash
 cd server
 npm start
 ```
 
 ### 2. Start Frontend
+
 ```bash
 cd client
 npm run dev
 ```
 
 ### 3. Test Flow
+
 1. ✅ Go to http://localhost:3000
 2. ✅ Login/Signup
 3. ✅ Click heart on a property → Should turn red
@@ -171,7 +184,9 @@ npm run dev
    - Added cartUpdated event dispatching
 
 ## Result
+
 🎉 **Cart system now works perfectly!**
+
 - No more 400 errors shown to users
 - Heart icons always reflect actual cart state
 - Real-time updates across all components

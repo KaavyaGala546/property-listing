@@ -19,7 +19,7 @@ export default function PropertyListings({ searchResults }) {
   const displayedProperties = properties.slice(0, 6);
 
   return (
-    <section id='properties' className="py-16 bg-white">
+    <section id="properties" className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="mb-12">
           <div className="flex items-center justify-between">
@@ -36,8 +36,12 @@ export default function PropertyListings({ searchResults }) {
 
         {properties.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600 text-lg mb-4">No properties found matching your criteria.</p>
-            <p className="text-gray-500 text-sm">Try adjusting your filters or browse all properties.</p>
+            <p className="text-gray-600 text-lg mb-4">
+              No properties found matching your criteria.
+            </p>
+            <p className="text-gray-500 text-sm">
+              Try adjusting your filters or browse all properties.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -48,8 +52,8 @@ export default function PropertyListings({ searchResults }) {
         )}
 
         <div className="text-center mt-12">
-          <Link 
-            href="/properties" 
+          <Link
+            href="/properties"
             className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             View All Properties

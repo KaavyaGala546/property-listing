@@ -20,13 +20,13 @@ The system demonstrates end-to-end full-stack development, including frontend UI
 
 ## ✨ Key Features
 
-* 🔐 User Authentication (Signup/Login with JWT)
-* 🏠 Browse property listings
-* 🔍 Search and filter properties
-* ❤️ Save / manage favorite listings
-* 👤 User profile management
-* ⚡ Responsive and clean UI
-* 🌐 Deployed frontend application
+- 🔐 User Authentication (Signup/Login with JWT)
+- 🏠 Browse property listings
+- 🔍 Search and filter properties
+- ❤️ Save / manage favorite listings
+- 👤 User profile management
+- ⚡ Responsive and clean UI
+- 🌐 Deployed frontend application
 
 ---
 
@@ -34,26 +34,26 @@ The system demonstrates end-to-end full-stack development, including frontend UI
 
 ### Frontend
 
-* React / Next.js
-* HTML, CSS
-* Tailwind CSS
-* Context API
+- React / Next.js
+- HTML, CSS
+- Tailwind CSS
+- Context API
 
 ### Backend
 
-* Node.js
-* Express.js
-* JWT Authentication
+- Node.js
+- Express.js
+- JWT Authentication
 
 ### Database
 
-* MongoDB
-* Mongoose
+- MongoDB
+- Mongoose
 
 ### Tools
 
-* Git & GitHub
-* VS Code
+- Git & GitHub
+- VS Code
 
 ---
 
@@ -67,9 +67,9 @@ API Layer (Express.js)
 Database (MongoDB)
 ```
 
-* Frontend handles UI and user interaction
-* Backend manages API routes, authentication, and business logic
-* MongoDB stores user and property data
+- Frontend handles UI and user interaction
+- Backend manages API routes, authentication, and business logic
+- MongoDB stores user and property data
 
 ---
 
@@ -89,6 +89,7 @@ property-listing/
 ## ▶️ Getting Started
 
 ### 1. Setup Environment
+
 Create a `.env` file in the root directory (using the provided `.env.example`):
 
 ```bash
@@ -102,29 +103,33 @@ NEXT_PUBLIC_API_URL=http://localhost:5001
 ```
 
 ### 2. Consolidated Installation & Database Seed
+
 You can install all dependencies and seed the database with sample properties in one command from the root:
 
 ```bash
 npm run install:all && npm run seed
 ```
 
-*This command installs dependencies for both `client` and `server`, then runs the database initialization and property generation scripts.*
+_This command installs dependencies for both `client` and `server`, then runs the database initialization and property generation scripts._
 
 ### 3. Run Development Servers
+
 Start both the frontend and backend concurrently:
 
 ```bash
 npm run dev
 ```
-*The frontend will be available at `http://localhost:3000` and the backend at `http://localhost:5001`.*
+
+_The frontend will be available at `http://localhost:3000` and the backend at `http://localhost:5001`._
 
 ---
 
 ## 🔑 Sample Test Credentials
+
 For demonstration purposes, you can use the following test account (after seeding):
 
-* **Email:** `test@example.com`
-* **Password:** `password123`
+- **Email:** `test@example.com`
+- **Password:** `password123`
 
 ---
 
@@ -133,28 +138,31 @@ For demonstration purposes, you can use the following test account (after seedin
 The Property Listing Platform follows a decoupled full-stack architecture:
 
 ### 🌐 Frontend (Client)
+
 - **Framework**: Next.js (React)
 - **Deployment**: Optimized for **Vercel**.
 - **Communication**: Communicates with the backend via RESTful API calls. The API URL is configured via the `NEXT_PUBLIC_API_URL` environment variable.
 
 ### 🔌 Backend (Server)
+
 - **Framework**: Node.js / Express
 - **Deployment**: Can be deployed to **Render, Heroku, or DigitalOcean**.
 - **Database**: Connects to **MongoDB Atlas** (Cloud) or a local MongoDB instance.
 
 ### 🗄️ Database (MongoDB)
+
 - Data is persistent and managed through Mongoose models. Initial data can be generated using the built-in seeding scripts.
 
 ---
 
 ## 🛠️ Available Scripts (Server)
 
-| Script | Description |
-| :--- | :--- |
-| `npm run seed` | Initializes the database with base user and system data. |
+| Script                        | Description                                               |
+| :---------------------------- | :-------------------------------------------------------- |
+| `npm run seed`                | Initializes the database with base user and system data.  |
 | `npm run generate-properties` | Generates 200+ sample property listings for the platform. |
-| `npm start` | Starts the production server. |
-| `npm run dev` | Starts the server with `nodemon` for auto-restart. |
+| `npm start`                   | Starts the production server.                             |
+| `npm run dev`                 | Starts the server with `nodemon` for auto-restart.        |
 
 ---
 

@@ -8,6 +8,7 @@
 **Date:** December 2, 2025
 
 ### Project Overview
+
 A modern, responsive web application designed to connect property buyers and renters with their ideal properties. The platform offers an intuitive interface, advanced search capabilities, and comprehensive property listings with high-quality images and detailed information.
 
 ## 2. Project Objectives
@@ -22,6 +23,7 @@ A modern, responsive web application designed to connect property buyers and ren
 ## 3. Technical Stack
 
 ### Frontend
+
 - **Framework:** Next.js 13+ (React)
 - **Styling:** Tailwind CSS
 - **Icons:** Lucide Icons
@@ -30,6 +32,7 @@ A modern, responsive web application designed to connect property buyers and ren
 - **Routing:** Next.js App Router
 
 ### Backend
+
 - **Runtime:** Node.js
 - **Framework:** Express.js
 - **Database:** MongoDB with Mongoose ODM
@@ -37,6 +40,7 @@ A modern, responsive web application designed to connect property buyers and ren
 - **API:** RESTful API architecture
 
 ### Development Tools
+
 - **Version Control:** Git
 - **Package Manager:** npm/yarn
 - **Linting/Formatting:** ESLint, Prettier
@@ -45,11 +49,13 @@ A modern, responsive web application designed to connect property buyers and ren
 ## 4. Key Features
 
 ### 1. Property Listings
+
 - Paginated property listings (10 items per page)
 - Grid/List view options
 - Sorting by price, date added, and relevance
 
 ### 2. Advanced Search
+
 - Location-based search
 - Property type filtering
 - Price range filters
@@ -57,6 +63,7 @@ A modern, responsive web application designed to connect property buyers and ren
 - Amenities filtering
 
 ### 3. Property Details
+
 - High-resolution image galleries
 - Property specifications
 - Interactive maps
@@ -64,6 +71,7 @@ A modern, responsive web application designed to connect property buyers and ren
 - Contact forms
 
 ### 4. User Accounts
+
 - Secure registration and login
 - Saved searches
 - Favorite properties
@@ -73,18 +81,21 @@ A modern, responsive web application designed to connect property buyers and ren
 ## 5. Technical Architecture
 
 ### Frontend Architecture
+
 - Component-based architecture
 - Responsive design with mobile-first approach
 - Lazy loading for images and components
 - Client-side routing with loading states
 
 ### Backend Architecture
+
 - RESTful API endpoints
 - Middleware for authentication and validation
 - Error handling and logging
 - Rate limiting and security headers
 
 ### Database Schema
+
 - Users
 - Properties
 - Favorites
@@ -93,13 +104,13 @@ A modern, responsive web application designed to connect property buyers and ren
 
 ## 6. Project Timeline
 
-| Phase | Duration | Deliverables |
-|-------|----------|--------------|
-| Planning & Design | 2 weeks | Wireframes, Database Design, API Specs |
-| Core Development | 6 weeks | MVP with basic functionality |
-| Testing | 2 weeks | Bug fixes, Performance optimization |
-| Deployment | 1 week | Staging & Production Setup |
-| Post-Launch | Ongoing | Monitoring, Updates, Maintenance |
+| Phase             | Duration | Deliverables                           |
+| ----------------- | -------- | -------------------------------------- |
+| Planning & Design | 2 weeks  | Wireframes, Database Design, API Specs |
+| Core Development  | 6 weeks  | MVP with basic functionality           |
+| Testing           | 2 weeks  | Bug fixes, Performance optimization    |
+| Deployment        | 1 week   | Staging & Production Setup             |
+| Post-Launch       | Ongoing  | Monitoring, Updates, Maintenance       |
 
 ## 7. Future Enhancements
 
@@ -125,4 +136,4 @@ This property listing platform represents a modern solution for real estate busi
 
 ---
 
-*This document is a proposal for the development of a property listing platform. All specifications are subject to change based on further requirements and feedback.*
+_This document is a proposal for the development of a property listing platform. All specifications are subject to change based on further requirements and feedback._

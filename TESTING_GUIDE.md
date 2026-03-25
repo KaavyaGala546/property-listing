@@ -3,20 +3,24 @@
 ## ✅ Security Features Implemented
 
 ### 1. **Password Security with bcrypt**
+
 - **Location**: `server/routes/auth.js`
 - **Implementation**:
+
   ```javascript
   // Signup - hashing with salt
   const salt = await bcrypt.genSalt(10);
   const hashed = await bcrypt.hash(password, salt);
-  
+
   // Login - comparing hashed passwords
   const isMatch = await bcrypt.compare(password, user.password);
   ```
+
 - **Salt Rounds**: 10 (industry standard)
 - **Library**: `bcryptjs` v2.4.3
 
 ### 2. **JWT Authentication**
+
 - **Location**: `server/routes/auth.js`, `server/middleware/auth.js`
 - **Features**:
   - Token signing with secret key
@@ -26,7 +30,9 @@
 - **Secret**: Stored in `.env` file (64-byte random string)
 
 ### 3. **Protected Routes**
+
 All cart operations require authentication:
+
 - `GET /api/cart` - Get saved properties
 - `POST /api/cart` - Add property
 - `DELETE /api/cart/:id` - Remove property
@@ -36,6 +42,7 @@ All cart operations require authentication:
 ## 🧪 Testing the System
 
 ### Prerequisites
+
 ```bash
 # 1. Install MongoDB (if not already installed)
 brew install mongodb-community
@@ -52,6 +59,7 @@ npm install
 ```
 
 ### Step 1: Start the Server
+
 ```bash
 cd server
 npm run dev
@@ -62,6 +70,7 @@ Server should start on `http://localhost:5000`
 ### Step 2: Test Authentication
 
 #### Test Signup (bcrypt hashing)
+
 ```bash
 curl -X POST http://localhost:5000/api/auth/signup \
   -H "Content-Type: application/json" \
@@ -73,6 +82,7 @@ curl -X POST http://localhost:5000/api/auth/signup \
 ```
 
 **Expected Response**:
+
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -85,14 +95,17 @@ curl -X POST http://localhost:5000/api/auth/signup \
 ```
 
 **Verify in MongoDB**:
+
 ```bash
 mongosh
 use kavyacapstone
 db.users.find().pretty()
 ```
+
 You should see the password is hashed (not plain text).
 
 #### Test Login
+
 ```bash
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
@@ -103,6 +116,7 @@ curl -X POST http://localhost:5000/api/auth/login \
 ```
 
 #### Test Invalid Password
+
 ```bash
 curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
@@ -111,11 +125,13 @@ curl -X POST http://localhost:5000/api/auth/login \
     "password": "wrongpassword"
   }'
 ```
+
 **Expected**: `{"message": "Invalid credentials"}`
 
 ### Step 3: Test Protected Routes
 
 #### Get User Profile (with token)
+
 ```bash
 # Replace YOUR_TOKEN with the token from signup/login
 curl -X GET http://localhost:5000/api/auth/me \
@@ -123,14 +139,17 @@ curl -X GET http://localhost:5000/api/auth/me \
 ```
 
 #### Try Without Token (should fail)
+
 ```bash
 curl -X GET http://localhost:5000/api/auth/me
 ```
+
 **Expected**: `{"message": "No token"}`
 
 ### Step 4: Test Cart System
 
 #### Add Property to Cart
+
 ```bash
 curl -X POST http://localhost:5000/api/cart \
   -H "Content-Type: application/json" \
@@ -139,18 +158,21 @@ curl -X POST http://localhost:5000/api/cart \
 ```
 
 #### Get Saved Properties
+
 ```bash
 curl -X GET http://localhost:5000/api/cart \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 #### Check if Property is Saved
+
 ```bash
 curl -X GET http://localhost:5000/api/cart/check/1 \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
 #### Remove Property
+
 ```bash
 curl -X DELETE http://localhost:5000/api/cart/1 \
   -H "Authorization: Bearer YOUR_TOKEN"
@@ -196,23 +218,27 @@ Visit `http://localhost:3000`:
 ## 🔒 Security Best Practices Implemented
 
 ### ✅ Password Security
+
 - [x] Passwords hashed with bcrypt (10 salt rounds)
 - [x] Plain text passwords never stored
 - [x] Passwords never returned in API responses
 
 ### ✅ JWT Security
+
 - [x] Secret key stored in environment variable
 - [x] 64-byte random secret generated with OpenSSL
 - [x] Token expiration (7 days)
 - [x] Token verification on every protected request
 
 ### ✅ API Security
+
 - [x] Auth middleware validates all protected routes
 - [x] User can only access their own data
 - [x] CORS enabled for cross-origin requests
 - [x] Input validation on all endpoints
 
 ### ✅ Data Security
+
 - [x] MongoDB indexes for unique constraints
 - [x] Passwords excluded from query results
 - [x] User ID from JWT (not from request body)
@@ -220,6 +246,7 @@ Visit `http://localhost:3000`:
 ## 📊 Database Schema
 
 ### Users Collection
+
 ```javascript
 {
   _id: ObjectId,
@@ -231,6 +258,7 @@ Visit `http://localhost:3000`:
 ```
 
 ### Cart Collection
+
 ```javascript
 {
   _id: ObjectId,
@@ -243,26 +271,34 @@ Visit `http://localhost:3000`:
 ## 🐛 Troubleshooting
 
 ### Issue: "No token" error
+
 **Solution**: Make sure you're sending the token in the Authorization header:
+
 ```
 Authorization: Bearer YOUR_TOKEN_HERE
 ```
 
 ### Issue: "Invalid credentials"
-**Solution**: 
+
+**Solution**:
+
 - Check password is correct
 - Verify user exists in database
 - Check bcrypt is installed: `npm list bcryptjs`
 
 ### Issue: Saved properties not showing
+
 **Solution**:
+
 - Check MongoDB is running
 - Verify token is valid
 - Check browser console for errors
 - Verify propertyId format (should be string)
 
 ### Issue: Cart operations fail
+
 **Solution**:
+
 - Make sure you're logged in
 - Check token in localStorage/sessionStorage
 - Verify backend server is running
@@ -279,6 +315,7 @@ JWT_SECRET="your-64-byte-random-secret-here"
 ```
 
 Generate a secure JWT secret:
+
 ```bash
 openssl rand -base64 64
 ```

@@ -1,5 +1,5 @@
 // app/properties/page.js
-"use client";
+'use client';
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Navbar from '../../components/navbar';
@@ -29,7 +29,7 @@ export default function PropertiesPage() {
     page: 1,
     total: 0,
     totalPages: 20,
-    limit: ITEMS_PER_PAGE
+    limit: ITEMS_PER_PAGE,
   });
 
   // Fetch properties with pagination and filters
@@ -44,16 +44,16 @@ export default function PropertiesPage() {
         ...(typeQuery && { type: typeQuery }),
         ...(bedroomsQuery && { bedrooms: bedroomsQuery }),
         ...(minPriceQuery && { minPrice: minPriceQuery }),
-        ...(maxPriceQuery && { maxPrice: maxPriceQuery })
+        ...(maxPriceQuery && { maxPrice: maxPriceQuery }),
       });
       setPagination({
         ...pagination,
-        page: page
-      })
+        page: page,
+      });
 
       const response = await fetch(`/api/properties?${params.toString()}`);
       const data = await response.json();
-      
+
       if (data.properties) {
         setProperties(data.properties);
         setFilteredProperties(data.properties);
@@ -61,18 +61,38 @@ export default function PropertiesPage() {
           page: data.page,
           total: data.total,
           totalPages: data.totalPages,
-          limit: data.limit
+          limit: data.limit,
         });
       } else {
         // Fallback to local data if API fails
-        setProperties(localProperties.slice(pagination.page*pagination.limit, pagination.page*pagination.limit + pagination.limit));
-        setFilteredProperties(localProperties.slice(pagination.page*pagination.limit, pagination.page*pagination.limit + pagination.limit));
+        setProperties(
+          localProperties.slice(
+            pagination.page * pagination.limit,
+            pagination.page * pagination.limit + pagination.limit
+          )
+        );
+        setFilteredProperties(
+          localProperties.slice(
+            pagination.page * pagination.limit,
+            pagination.page * pagination.limit + pagination.limit
+          )
+        );
       }
     } catch (error) {
       console.error('Error fetching properties:', error);
       // Fallback to local data
-      setProperties(localProperties.slice(pagination.page*pagination.limit, pagination.page*pagination.limit + pagination.limit));
-      setFilteredProperties(localProperties.slice(pagination.page*pagination.limit, pagination.page*pagination.limit + pagination.limit));
+      setProperties(
+        localProperties.slice(
+          pagination.page * pagination.limit,
+          pagination.page * pagination.limit + pagination.limit
+        )
+      );
+      setFilteredProperties(
+        localProperties.slice(
+          pagination.page * pagination.limit,
+          pagination.page * pagination.limit + pagination.limit
+        )
+      );
     } finally {
       setIsLoading(false);
     }
@@ -85,19 +105,26 @@ export default function PropertiesPage() {
   const handleSearchResults = (results, filters = {}) => {
     // Update URL with search parameters
     const params = new URLSearchParams();
-    
+
     if (filters.search) params.set('search', filters.search);
     if (filters.location) params.set('location', filters.location);
     if (filters.type) params.set('type', filters.type);
     if (filters.bedrooms) params.set('bedrooms', filters.bedrooms);
     if (filters.minPrice) params.set('minPrice', filters.minPrice);
     if (filters.maxPrice) params.set('maxPrice', filters.maxPrice);
-    
+
     // Reset to first page on new search
     params.set('page', '1');
-    
+
     router.push(`/properties?${params.toString()}`);
-    setIsSearching(!!filters.search || !!filters.location || !!filters.type || !!filters.bedrooms || !!filters.minPrice || !!filters.maxPrice);
+    setIsSearching(
+      !!filters.search ||
+        !!filters.location ||
+        !!filters.type ||
+        !!filters.bedrooms ||
+        !!filters.minPrice ||
+        !!filters.maxPrice
+    );
   };
 
   const handleClearSearch = () => {
@@ -116,7 +143,7 @@ export default function PropertiesPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-12 mt-8">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-4">Featured Properties</h1>
@@ -127,22 +154,30 @@ export default function PropertiesPage() {
 
         {/* Search Component */}
         <div className="mb-8">
-          <PropertySearch 
-            onResults={handleSearchResults} 
-            useLocalData={false} 
+          <PropertySearch
+            onResults={handleSearchResults}
+            useLocalData={false}
             initialValues={{
               search: searchQuery,
               location: locationQuery,
               type: typeQuery,
               bedrooms: bedroomsQuery,
               minPrice: minPriceQuery,
-              maxPrice: maxPriceQuery
+              maxPrice: maxPriceQuery,
             }}
           />
-          {(isSearching || searchQuery || locationQuery || typeQuery || bedroomsQuery || minPriceQuery || maxPriceQuery) && (
+          {(isSearching ||
+            searchQuery ||
+            locationQuery ||
+            typeQuery ||
+            bedroomsQuery ||
+            minPriceQuery ||
+            maxPriceQuery) && (
             <div className="mt-4 flex items-center justify-between">
               <p className="text-gray-600">
-                {isLoading ? 'Loading...' : `Found ${pagination.total} ${pagination.total === 1 ? 'property' : 'properties'}`}
+                {isLoading
+                  ? 'Loading...'
+                  : `Found ${pagination.total} ${pagination.total === 1 ? 'property' : 'properties'}`}
               </p>
               <button
                 onClick={handleClearSearch}
@@ -170,7 +205,9 @@ export default function PropertiesPage() {
               </div>
             ) : (
               <div className="text-center py-16">
-                <p className="text-xl text-gray-500 mb-4">No properties found matching your criteria</p>
+                <p className="text-xl text-gray-500 mb-4">
+                  No properties found matching your criteria
+                </p>
                 <button
                   onClick={handleClearSearch}
                   className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -191,7 +228,7 @@ export default function PropertiesPage() {
                   >
                     Previous
                   </button>
-                  
+
                   {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
                     // Show first page, last page, current page, and pages around current page
                     let pageNum;
@@ -204,14 +241,14 @@ export default function PropertiesPage() {
                     } else {
                       pageNum = pagination.page - 2 + i;
                     }
-                    
+
                     return (
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
                         className={`px-4 py-2 rounded-md ${
-                          pagination.page === pageNum 
-                            ? 'bg-blue-600 text-white' 
+                          pagination.page === pageNum
+                            ? 'bg-blue-600 text-white'
                             : 'text-gray-700 hover:bg-gray-100'
                         }`}
                       >
@@ -219,11 +256,11 @@ export default function PropertiesPage() {
                       </button>
                     );
                   })}
-                  
+
                   {pagination.totalPages > 5 && pagination.page < pagination.totalPages - 2 && (
                     <span className="px-2">...</span>
                   )}
-                  
+
                   {pagination.totalPages > 5 && pagination.page < pagination.totalPages - 2 && (
                     <button
                       onClick={() => handlePageChange(pagination.totalPages)}
@@ -232,7 +269,7 @@ export default function PropertiesPage() {
                       {pagination.totalPages}
                     </button>
                   )}
-                  
+
                   <button
                     onClick={() => handlePageChange(pagination.page + 1)}
                     disabled={pagination.page === pagination.totalPages}
@@ -246,7 +283,7 @@ export default function PropertiesPage() {
           </>
         )}
       </div>
-      
+
       <Footer />
     </div>
   );

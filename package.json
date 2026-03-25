@@ -10,5 +10,12 @@
     "install:all": "cd server && npm install && cd ../client && npm install",
     "lint": "eslint . --ext .js,.jsx,.mjs",
     "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-next": "15.3.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.2.4"
   }
 }

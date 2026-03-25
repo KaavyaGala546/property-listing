@@ -1,11 +1,11 @@
 // app/components/properties/PropertyCard.jsx
-"use client"
+'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Heart } from 'lucide-react';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
 export default function PropertyCard({ property, inCart = false, onCartChange }) {
   const [isInCart, setIsInCart] = useState(inCart);
@@ -14,7 +14,7 @@ export default function PropertyCard({ property, inCart = false, onCartChange })
   // Check cart status on mount
   useEffect(() => {
     const checkCartStatus = async () => {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       if (!token) return;
 
       try {
@@ -26,7 +26,7 @@ export default function PropertyCard({ property, inCart = false, onCartChange })
           setIsInCart(data.inCart);
         }
       } catch (err) {
-        console.error("Failed to check cart status", err);
+        console.error('Failed to check cart status', err);
       }
     };
 
@@ -36,10 +36,10 @@ export default function PropertyCard({ property, inCart = false, onCartChange })
   const toggleCart = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!token) {
-      window.location.href = "/auth?next=/properties";
+      window.location.href = '/auth?next=/properties';
       return;
     }
 
@@ -59,15 +59,15 @@ export default function PropertyCard({ property, inCart = false, onCartChange })
       } else {
         const res = await fetch(`${API_BASE}/api/cart`, {
           method: 'POST',
-          headers: { 
+          headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}` 
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ propertyId: property._id || property.id }),
         });
-        
+
         const data = await res.json();
-        
+
         if (res.ok) {
           setIsInCart(true);
           if (onCartChange) onCartChange(property, true);
@@ -77,11 +77,11 @@ export default function PropertyCard({ property, inCart = false, onCartChange })
           // Property is already in cart, just update UI
           setIsInCart(true);
         } else {
-          console.error("Failed to add to cart:", data.message);
+          console.error('Failed to add to cart:', data.message);
         }
       }
     } catch (err) {
-      console.error("Cart action failed", err);
+      console.error('Cart action failed', err);
     } finally {
       setLoading(false);
     }
@@ -91,8 +91,8 @@ export default function PropertyCard({ property, inCart = false, onCartChange })
     <Link href={`/properties/${property._id || property.id}`} className="block">
       <div className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
         <div className="relative h-48">
-          <Image 
-            src={property.images[0]} 
+          <Image
+            src={property.images[0]}
             alt={property.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -104,11 +104,11 @@ export default function PropertyCard({ property, inCart = false, onCartChange })
             onClick={toggleCart}
             disabled={loading}
             className={`absolute top-4 right-4 p-2 rounded-full transition-all cursor-pointer ${
-              isInCart 
-                ? 'bg-red-500 text-white' 
+              isInCart
+                ? 'bg-red-500 text-white'
                 : 'bg-white/90 text-gray-700 hover:bg-red-500 hover:text-white'
             } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            title={isInCart ? "Remove from cart" : "Add to cart"}
+            title={isInCart ? 'Remove from cart' : 'Add to cart'}
           >
             <Heart className={`w-5 h-5 ${isInCart ? 'fill-current' : ''}`} />
           </button>

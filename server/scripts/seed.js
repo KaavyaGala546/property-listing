@@ -21,24 +21,26 @@ async function run() {
   const data = JSON.parse(raw);
 
   await Property.deleteMany({});
-  await Property.insertMany(data.map(d => ({
-    title: d.title,
-    location: d.location,
-    type: d.type,
-    bedrooms: d.bedrooms,
-    bathrooms: d.bathrooms,
-    area: d.area,
-    price: d.price,
-    description: d.description,
-    features: d.features,
-    images: d.images
-  })));
+  await Property.insertMany(
+    data.map((d) => ({
+      title: d.title,
+      location: d.location,
+      type: d.type,
+      bedrooms: d.bedrooms,
+      bathrooms: d.bathrooms,
+      area: d.area,
+      price: d.price,
+      description: d.description,
+      features: d.features,
+      images: d.images,
+    }))
+  );
 
   console.log('Seeded properties');
   process.exit(0);
 }
 
-run().catch(err => {
+run().catch((err) => {
   console.error(err);
   process.exit(1);
 });

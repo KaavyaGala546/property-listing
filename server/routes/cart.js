@@ -22,17 +22,15 @@ function loadSampleProperties() {
 // GET /api/cart - Get user's saved properties
 router.get('/', auth, async (req, res) => {
   try {
-    const items = await Cart.find({ userId: req.userId })
-      .sort({ addedAt: -1 })
-      .lean();
-    
+    const items = await Cart.find({ userId: req.userId }).sort({ addedAt: -1 }).lean();
+
     // Populate property data - try DB first, then fall back to sample data
     const sampleProperties = loadSampleProperties();
     const populatedItems = [];
-    
+
     for (const item of items) {
       let property = null;
-      
+
       // Try to find in DB if it looks like a valid 24-char ObjectId
       if (String(item.propertyId).match(/^[0-9a-fA-F]{24}$/)) {
         try {
@@ -41,22 +39,22 @@ router.get('/', auth, async (req, res) => {
           // Not a valid ObjectId, will try sample data
         }
       }
-      
+
       // If not in DB, try to find in sample data
       if (!property) {
-        property = sampleProperties.find(p => String(p.id) === String(item.propertyId));
+        property = sampleProperties.find((p) => String(p.id) === String(item.propertyId));
       }
-      
+
       if (property) {
         populatedItems.push({
           _id: item._id,
           userId: item.userId,
           addedAt: item.addedAt,
-          propertyId: property
+          propertyId: property,
         });
       }
     }
-    
+
     res.json(populatedItems);
   } catch (err) {
     console.error(err);
@@ -79,7 +77,7 @@ router.post('/', auth, async (req, res) => {
 
     // Try to find property in DB (only if it looks like a valid 24-char hex ObjectId), then sample data
     let property = null;
-    
+
     // Check if propertyId looks like a 24-character hex ObjectId
     if (String(propertyId).match(/^[0-9a-fA-F]{24}$/)) {
       try {
@@ -88,21 +86,21 @@ router.post('/', auth, async (req, res) => {
         // Not a valid ObjectId, will try sample data
       }
     }
-    
+
     // If not found in DB, try sample data
     if (!property) {
       const sampleProperties = loadSampleProperties();
-      property = sampleProperties.find(p => String(p.id) === String(propertyId));
+      property = sampleProperties.find((p) => String(p.id) === String(propertyId));
     }
-    
-    res.json({ 
-      message: 'Added to cart', 
-      item: { 
+
+    res.json({
+      message: 'Added to cart',
+      item: {
         _id: item._id,
         userId: item.userId,
         addedAt: item.addedAt,
-        propertyId: property || { id: propertyId } 
-      } 
+        propertyId: property || { id: propertyId },
+      },
     });
   } catch (err) {
     console.error(err);
@@ -114,10 +112,13 @@ router.post('/', auth, async (req, res) => {
 router.delete('/:propertyId', auth, async (req, res) => {
   try {
     const { propertyId } = req.params;
-    const result = await Cart.findOneAndDelete({ userId: req.userId, propertyId: String(propertyId) });
-    
+    const result = await Cart.findOneAndDelete({
+      userId: req.userId,
+      propertyId: String(propertyId),
+    });
+
     if (!result) return res.status(404).json({ message: 'Item not found in cart' });
-    
+
     res.json({ message: 'Removed from cart' });
   } catch (err) {
     console.error(err);

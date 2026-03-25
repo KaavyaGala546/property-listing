@@ -1,16 +1,14 @@
-"use client"
- 
-import React, { use } from 'react'
-import LandingPage from './landing/page'
+'use client';
 
+import React, { use } from 'react';
+import LandingPage from './landing/page';
 
 const page = () => {
   return (
     <div>
-     <LandingPage />
-
+      <LandingPage />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
