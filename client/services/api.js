@@ -72,4 +72,12 @@ export const api = {
     });
     return res.json();
   },
+
+  // Recommendations
+  getRecommendations: async () => {
+    const res = await fetch(`${API_BASE}/api/recommendations`, {
+      headers: getHeaders(),
+    });
+    return res.json();
+  },
 };
