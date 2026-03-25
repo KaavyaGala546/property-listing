@@ -18,6 +18,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/properties', require('./routes/properties'));
 app.use('/api/cart', require('./routes/cart'));
+app.use('/api/recommendations', require('./routes/recommendations'));
 
 app.get('/', (req, res) => res.send({ ok: true, message: 'Property Listing API' }));
 
