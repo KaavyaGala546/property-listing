@@ -19,8 +19,10 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/properties', require('./routes/properties'));
 app.use('/api/cart', require('./routes/cart'));
 
-app.get('/', (req, res) => res.send({ ok: true, message: 'Kavya Capstone API' }));
+app.get('/', (req, res) => res.send({ ok: true, message: 'Property Listing API' }));
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log('-------------------------------------------');
+  console.log(`🚀 Property Listing API Server running on port ${PORT}`);
+  console.log('-------------------------------------------');
 });

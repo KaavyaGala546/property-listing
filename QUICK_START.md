@@ -18,7 +18,7 @@ mongod --config /usr/local/etc/mongod.conf
 ## 2. Start Backend Server
 
 ```bash
-cd /Users/underxcore/Desktop/kavyacapstone/server
+cd /Users/underxcore/Desktop/kavyaproperty-listing/server
 npm install  # First time only
 npm start
 ```
@@ -28,7 +28,7 @@ Server will run on: **http://localhost:5000**
 ## 3. Start Frontend (New Terminal)
 
 ```bash
-cd /Users/underxcore/Desktop/kavyacapstone/client
+cd /Users/underxcore/Desktop/kavyaproperty-listing/client
 npm install  # First time only
 npm run dev
 ```
@@ -114,7 +114,7 @@ npm run dev
 ### Server (.env)
 
 ```bash
-MONGO_URI=mongodb://127.0.0.1:27017/kavyacapstone
+MONGO_URI=mongodb://127.0.0.1:27017/kavyaproperty-listing
 PORT=5000
 JWT_SECRET=your_64_byte_secret_here
 ```
@@ -149,7 +149,7 @@ NEXT_PUBLIC_API_URL=http://localhost:5000
 ## Project Structure
 
 ```
-kavyacapstone/
+kavyaproperty-listing/
 ├── server/               # Backend (Node.js + Express)
 │   ├── models/          # MongoDB schemas
 │   ├── routes/          # API endpoints

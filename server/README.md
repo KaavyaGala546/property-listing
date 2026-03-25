@@ -1,6 +1,6 @@
-# Kavya Capstone — Server
+# Kavya Property Listing — Server
 
-This folder contains a Node/Express backend for the Kavya Capstone project with full authentication and property management.
+This folder contains a Node/Express backend for the Kavya Property Listing project with full authentication and property management.
 
 ## 🔒 Security Features
 
@@ -35,7 +35,7 @@ cp .env.example .env
 
 Required environment variables:
 
-- `MONGO_URI` - MongoDB connection string (default: `mongodb://127.0.0.1:27017/kavyacapstone`)
+- `MONGO_URI` - MongoDB connection string (default: `mongodb://127.0.0.1:27017/kavyaproperty-listing`)
 - `PORT` - Server port (default: 5000)
 - `JWT_SECRET` - 64-byte random secret (generate with: `openssl rand -base64 64`)
 

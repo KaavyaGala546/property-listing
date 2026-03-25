@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'Estate',
-  description: 'Capstone Project',
+  title: 'Plush Abodes | Premium Property Listing',
+  description: 'A professional property listing platform built with Next.js and Node.js.',
 };
 
 export default function RootLayout({ children }) {

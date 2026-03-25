@@ -10,7 +10,7 @@ const Property = require('../models/Property');
 
 dotenv.config();
 
-const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/kavyacapstone';
+const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/kavyaproperty-listing';
 
 async function run() {
   await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });

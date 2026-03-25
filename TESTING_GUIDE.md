@@ -98,7 +98,7 @@ curl -X POST http://localhost:5000/api/auth/signup \
 
 ```bash
 mongosh
-use kavyacapstone
+use kavyaproperty-listing
 db.users.find().pretty()
 ```
 
@@ -309,7 +309,7 @@ Authorization: Bearer YOUR_TOKEN_HERE
 Create `.env` file in `server/` directory:
 
 ```env
-MONGO_URI=mongodb://127.0.0.1:27017/kavyacapstone
+MONGO_URI=mongodb://127.0.0.1:27017/kavyaproperty-listing
 PORT=5000
 JWT_SECRET="your-64-byte-random-secret-here"
 ```

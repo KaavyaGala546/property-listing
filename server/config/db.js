@@ -5,12 +5,15 @@ const connectDB = async () => {
   try {
     await mongoose.connect(uri, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // useUnifiedTopology: true, // This line is removed based on the provided Code Edit
     });
-    console.log('MongoDB connected');
+    console.log('-------------------------------------------');
+    console.log('✅ MongoDB Connected Safely');
+    console.log('🏠 Project: Property Listing Platform');
+    console.log('-------------------------------------------');
   } catch (err) {
-    console.error('MongoDB connection error:', err.message);
-    // process.exit(1);
+    console.error('MongoDB connection error:', err.message); // Keep original error log
+    process.exit(1); // Uncommented and moved based on the provided Code Edit
   }
 };
 
