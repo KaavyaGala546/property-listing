@@ -6,6 +6,7 @@ import Navbar from './navbar';
 import Footer from './footer';
 import PropertyCard from './properties/PropertyCard';
 import PropertySearch from './PropertySearch';
+import Recommendations from './recommendations/Recommendations';
 import { api } from '../services/api';
 import { properties as localProperties } from '../app/data/properties';
 
