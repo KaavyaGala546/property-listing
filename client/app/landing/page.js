@@ -10,7 +10,7 @@ import Testimonials from './section/testimonials';
 import FAQ from './section/faq';
 import ContactForm from './section/contactform';
 import Footer from '../../components/footer';
-import PropertySearch from '../components/PropertySearch';
+import PropertySearch from '../../components/PropertySearch';
 
 export default function LandingPage() {
   const [searchResults, setSearchResults] = useState(null);

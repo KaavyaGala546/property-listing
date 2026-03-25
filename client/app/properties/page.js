@@ -1,6 +1,6 @@
 // app/properties/page.js
 import { Suspense } from 'react';
-import PropertiesClient from '../components/PropertiesClient';
+import PropertiesClient from '../../components/PropertiesClient';
 
 export default function PropertiesPage() {
   return (

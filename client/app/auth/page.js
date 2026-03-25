@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight, Eye, EyeOff, Mail, Lock, User, Star, Chrome, Apple } from 'lucide-react';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+import { api } from '../../services/api';
 
 function isValidEmail(email = '') {
   return /.+@.+\..+/.test(email);
@@ -59,18 +59,14 @@ function AuthPageInner() {
     setError('');
     setSuccess('');
     try {
-      const endpoint = mode === 'login' ? '/api/auth/login' : '/api/auth/signup';
-      const res = await fetch(`${API_BASE}${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: mode === 'signup' ? form.name : undefined,
-          email: form.email,
-          password: form.password,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || 'Request failed');
+      let data;
+      if (mode === 'login') {
+        data = await api.login(form.email, form.password);
+      } else {
+        data = await api.signup(form.name, form.email, form.password);
+      }
+
+      if (data.message && !data.token) throw new Error(data.message);
 
       // Save token
       if (data.token) {

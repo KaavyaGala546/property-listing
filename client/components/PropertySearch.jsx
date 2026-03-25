@@ -1,9 +1,8 @@
 'use client';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Search, MapPin, Home, Bed, DollarSign } from 'lucide-react';
-import { properties as localProperties } from '../data/properties';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+import { api } from '../services/api';
+import { properties as localProperties } from '../app/data/properties';
 
 export default function PropertySearch({ onResults, useLocalData = false }) {
   const [filters, setFilters] = useState({
@@ -20,7 +19,6 @@ export default function PropertySearch({ onResults, useLocalData = false }) {
   const filterLocalProperties = () => {
     let filtered = [...localProperties];
 
-    // Search filter
     if (filters.search) {
       const searchLower = filters.search.toLowerCase();
       filtered = filtered.filter(
@@ -31,23 +29,19 @@ export default function PropertySearch({ onResults, useLocalData = false }) {
       );
     }
 
-    // Location filter
     if (filters.location) {
       const locationLower = filters.location.toLowerCase();
       filtered = filtered.filter((p) => p.location.toLowerCase().includes(locationLower));
     }
 
-    // Type filter
     if (filters.type) {
       filtered = filtered.filter((p) => p.type === filters.type);
     }
 
-    // Bedrooms filter
     if (filters.bedrooms) {
       filtered = filtered.filter((p) => p.bedrooms >= parseInt(filters.bedrooms));
     }
 
-    // Price range filter
     if (filters.minPrice || filters.maxPrice) {
       filtered = filtered.filter((p) => {
         const price = parseInt(p.price.replace(/[$,]/g, ''));
@@ -64,7 +58,6 @@ export default function PropertySearch({ onResults, useLocalData = false }) {
     async (e) => {
       e?.preventDefault();
 
-      // Clear any pending timeout
       if (searchTimeoutRef.current) {
         clearTimeout(searchTimeoutRef.current);
       }
@@ -73,38 +66,26 @@ export default function PropertySearch({ onResults, useLocalData = false }) {
 
       try {
         if (useLocalData) {
-          // Use local filtering
           const filtered = filterLocalProperties();
           if (onResults) onResults(filtered);
         } else {
-          // Use API
-          const params = new URLSearchParams();
-          Object.entries(filters).forEach(([key, value]) => {
-            if (value) params.append(key, value);
-          });
-
-          const res = await fetch(`${API_BASE}/api/properties?${params.toString()}`);
-
-          if (res.ok) {
-            const data = await res.json();
+          const data = await api.getProperties(filters);
+          if (data.properties) {
             if (onResults) onResults(data);
           } else {
-            // Fallback to local filtering if API fails
             const filtered = filterLocalProperties();
             if (onResults) onResults(filtered);
           }
         }
       } catch (err) {
         console.error('Search failed, using local filtering', err);
-        // Fallback to local filtering
         const filtered = filterLocalProperties();
         if (onResults) onResults(filtered);
       } finally {
         setLoading(false);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [filters, useLocalData]
+    [filters, useLocalData, onResults]
   );
 
   // Debounced search trigger

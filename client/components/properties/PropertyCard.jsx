@@ -5,24 +5,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Heart } from 'lucide-react';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+import { api } from '../../services/api';
 
 export default function PropertyCard({ property, inCart = false, onCartChange }) {
   const [isInCart, setIsInCart] = useState(inCart);
   const [loading, setLoading] = useState(false);
 
-  // Check cart status on mount
   useEffect(() => {
     const checkCartStatus = async () => {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      if (!token) return;
-
       try {
-        const res = await fetch(`${API_BASE}/api/cart/check/${property._id || property.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const data = await res.json();
+        const data = await api.checkInCart(property._id || property.id);
+        if (data && typeof data.inCart === 'boolean') {
           setIsInCart(data.inCart);
         }
       } catch (err) {
@@ -46,35 +39,20 @@ export default function PropertyCard({ property, inCart = false, onCartChange })
     setLoading(true);
     try {
       if (isInCart) {
-        const res = await fetch(`${API_BASE}/api/cart/${property._id || property.id}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
+        const res = await api.removeFromCart(property._id || property.id);
+        if (res && !res.message?.includes('error')) {
           setIsInCart(false);
           if (onCartChange) onCartChange(property, false);
-          // Trigger storage event to update cart count in navbar
           window.dispatchEvent(new Event('cartUpdated'));
         }
       } else {
-        const res = await fetch(`${API_BASE}/api/cart`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ propertyId: property._id || property.id }),
-        });
+        const data = await api.addToCart(property._id || property.id);
 
-        const data = await res.json();
-
-        if (res.ok) {
+        if (data && !data.message?.includes('error')) {
           setIsInCart(true);
           if (onCartChange) onCartChange(property, true);
-          // Trigger storage event to update cart count in navbar
           window.dispatchEvent(new Event('cartUpdated'));
-        } else if (res.status === 400 && data.message === 'Already in your cart') {
-          // Property is already in cart, just update UI
+        } else if (data.message === 'Already in your cart') {
           setIsInCart(true);
         } else {
           console.error('Failed to add to cart:', data.message);

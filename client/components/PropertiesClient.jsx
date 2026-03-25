@@ -2,13 +2,14 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Navbar from '../../components/navbar';
-import Footer from '../../components/footer';
-import PropertyCard from '../components/properties/PropertyCard';
-import PropertySearch from '../components/PropertySearch';
-import { properties as localProperties } from '../data/properties';
+import Navbar from './navbar';
+import Footer from './footer';
+import PropertyCard from './properties/PropertyCard';
+import PropertySearch from './PropertySearch';
+import { api } from '../services/api';
+import { properties as localProperties } from '../app/data/properties';
 
-const ITEMS_PER_PAGE = 10; // Changed from 9 to 10 properties per page
+const ITEMS_PER_PAGE = 10;
 
 export default function PropertiesPage() {
   const router = useRouter();
@@ -36,8 +37,8 @@ export default function PropertiesPage() {
   const fetchProperties = async () => {
     try {
       setIsLoading(true);
-      const params = new URLSearchParams({
-        page: pagination.page,
+      const params = {
+        page,
         limit: ITEMS_PER_PAGE,
         ...(searchQuery && { search: searchQuery }),
         ...(locationQuery && { location: locationQuery }),
@@ -45,14 +46,11 @@ export default function PropertiesPage() {
         ...(bedroomsQuery && { bedrooms: bedroomsQuery }),
         ...(minPriceQuery && { minPrice: minPriceQuery }),
         ...(maxPriceQuery && { maxPrice: maxPriceQuery }),
-      });
-      setPagination({
-        ...pagination,
-        page: page,
-      });
+      };
+      
+      setPagination(prev => ({ ...prev, page }));
 
-      const response = await fetch(`/api/properties?${params.toString()}`);
-      const data = await response.json();
+      const data = await api.getProperties(params);
 
       if (data.properties) {
         setProperties(data.properties);
@@ -65,34 +63,17 @@ export default function PropertiesPage() {
         });
       } else {
         // Fallback to local data if API fails
-        setProperties(
-          localProperties.slice(
-            pagination.page * pagination.limit,
-            pagination.page * pagination.limit + pagination.limit
-          )
-        );
-        setFilteredProperties(
-          localProperties.slice(
-            pagination.page * pagination.limit,
-            pagination.page * pagination.limit + pagination.limit
-          )
-        );
+        const startIndex = (page - 1) * ITEMS_PER_PAGE;
+        const localSlice = localProperties.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+        setProperties(localSlice);
+        setFilteredProperties(localSlice);
       }
     } catch (error) {
       console.error('Error fetching properties:', error);
-      // Fallback to local data
-      setProperties(
-        localProperties.slice(
-          pagination.page * pagination.limit,
-          pagination.page * pagination.limit + pagination.limit
-        )
-      );
-      setFilteredProperties(
-        localProperties.slice(
-          pagination.page * pagination.limit,
-          pagination.page * pagination.limit + pagination.limit
-        )
-      );
+      const startIndex = (page - 1) * ITEMS_PER_PAGE;
+      const localSlice = localProperties.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+      setProperties(localSlice);
+      setFilteredProperties(localSlice);
     } finally {
       setIsLoading(false);
     }

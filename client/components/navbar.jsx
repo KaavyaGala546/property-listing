@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, User, LogOut, ChevronDown, Heart } from 'lucide-react';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+import { api } from '../services/api';
 
 const Navbar = () => {
   const router = useRouter();
@@ -25,10 +25,10 @@ const Navbar = () => {
   useEffect(() => {
     checkAuth();
 
-    // Listen for cart updates
     const handleCartUpdate = () => {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      if (token) fetchCartCount(token);
+      if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
+        fetchCartCount();
+      }
     };
 
     window.addEventListener('cartUpdated', handleCartUpdate);
@@ -47,17 +47,10 @@ const Navbar = () => {
 
   const checkAuth = async () => {
     try {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      if (!token) return;
-
-      const res = await fetch(`${API_BASE}/api/auth/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (res.ok) {
-        const data = await res.json();
+      const data = await api.getMe();
+      if (data && !data.message) {
         setUser(data);
-        fetchCartCount(token);
+        fetchCartCount();
       } else {
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
@@ -67,13 +60,10 @@ const Navbar = () => {
     }
   };
 
-  const fetchCartCount = async (token) => {
+  const fetchCartCount = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/cart`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) {
-        const data = await res.json();
+      const data = await api.getCart();
+      if (Array.isArray(data)) {
         setCartCount(data.length);
       }
     } catch (err) {

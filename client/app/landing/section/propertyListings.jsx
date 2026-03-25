@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import PropertyCard from '../../components/properties/PropertyCard';
+import PropertyCard from '../../../components/properties/PropertyCard';
 import { properties as defaultProperties } from '../../data/properties';
 
 export default function PropertyListings({ searchResults }) {

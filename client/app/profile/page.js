@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { User, Mail, Calendar, LogOut, Settings, Home, Heart, Trash2 } from 'lucide-react';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+import { api } from '../services/api';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -22,21 +22,10 @@ export default function ProfilePage() {
 
   const fetchUser = async () => {
     try {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      if (!token) {
-        router.push('/auth?next=/profile');
-        return;
-      }
-
-      const res = await fetch(`${API_BASE}/api/auth/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!res.ok) {
+      const data = await api.getMe();
+      if (!data || data.message) {
         throw new Error('Session expired');
       }
-
-      const data = await res.json();
       setUser(data);
     } catch (err) {
       console.error(err);
@@ -51,15 +40,8 @@ export default function ProfilePage() {
 
   const fetchSavedProperties = async () => {
     try {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      if (!token) return;
-
-      const res = await fetch(`${API_BASE}/api/cart`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (res.ok) {
-        const data = await res.json();
+      const data = await api.getCart();
+      if (Array.isArray(data)) {
         setSavedProperties(data);
       }
     } catch (err) {
@@ -69,10 +51,6 @@ export default function ProfilePage() {
 
   const handleRemoveProperty = async (propertyId) => {
     try {
-      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-      if (!token) return;
-
-      // Extract the actual property ID from the saved item
       const itemToRemove = savedProperties.find((item) => {
         const id = item.propertyId?._id || item.propertyId?.id || item.propertyId;
         return String(id) === String(propertyId);
@@ -83,19 +61,15 @@ export default function ProfilePage() {
       const actualPropertyId =
         itemToRemove.propertyId?._id || itemToRemove.propertyId?.id || itemToRemove.propertyId;
 
-      const res = await fetch(`${API_BASE}/api/cart/${actualPropertyId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.removeFromCart(actualPropertyId);
 
-      if (res.ok) {
+      if (res && !res.message?.includes('error')) {
         setSavedProperties((prev) =>
           prev.filter((item) => {
             const id = item.propertyId?._id || item.propertyId?.id || item.propertyId;
             return String(id) !== String(actualPropertyId);
           })
         );
-        // Trigger storage event to update cart count in navbar
         window.dispatchEvent(new Event('cartUpdated'));
       }
     } catch (err) {
