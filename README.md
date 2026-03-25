@@ -88,79 +88,73 @@ property-listing/
 
 ## ▶️ Getting Started
 
-### 1. Clone the Repository
+### 1. Setup Environment
+Create a `.env` file in the root directory (using the provided `.env.example`):
 
-```
-git clone https://github.com/KaavyaGala546/property-listing.git
-cd property-listing
-```
-
----
-
-### 2. Setup Backend
-
-```
-cd server
-npm install
-```
-
-Create a `.env` file:
-
-```
-MONGO_URI=your_mongodb_connection
+```bash
+# Backend
+MONGO_URI=mongodb://localhost:27017/property-listing
 JWT_SECRET=your_secret_key
-PORT=5000
+PORT=5001
+
+# Frontend
+NEXT_PUBLIC_API_URL=http://localhost:5001
 ```
 
-Run backend:
+### 2. Consolidated Installation & Database Seed
+You can install all dependencies and seed the database with sample properties in one command from the root:
 
+```bash
+npm run install:all && npm run seed
 ```
-npm start
-```
 
----
+*This command installs dependencies for both `client` and `server`, then runs the database initialization and property generation scripts.*
 
-### 3. Setup Frontend
+### 3. Run Development Servers
+Start both the frontend and backend concurrently:
 
-```
-cd client
-npm install
+```bash
 npm run dev
 ```
+*The frontend will be available at `http://localhost:3000` and the backend at `http://localhost:5001`.*
 
 ---
 
-## 🔗 API Highlights
+## 🔑 Sample Test Credentials
+For demonstration purposes, you can use the following test account (after seeding):
 
-* `POST /auth/register` → Register user
-* `POST /auth/login` → Authenticate user
-* `GET /properties` → Fetch listings
-* `POST /favorites` → Save property
-
----
-
-## 🖼️ Screenshots
-
-## 🖼️ Screenshots
-
-### 🏠 Homepage
-![Homepage](assets/screenshots/homepage.png)
-
-### 📚 Property Listings
-![Property Library](assets/screenshots/property_library.png)
-
-### 📞 Book a Call
-![Book a Call](assets/screenshots/book_a_call.png)
+* **Email:** `test@example.com`
+* **Password:** `password123`
 
 ---
 
-## 🚀 Future Improvements
+## ⚙️ Deployment Architecture
 
-* Advanced filtering (price, location, amenities)
-* Map-based property visualization
-* Recommendation system
-* Email notifications
-* Improved UI/UX
+The Property Listing Platform follows a decoupled full-stack architecture:
+
+### 🌐 Frontend (Client)
+- **Framework**: Next.js (React)
+- **Deployment**: Optimized for **Vercel**.
+- **Communication**: Communicates with the backend via RESTful API calls. The API URL is configured via the `NEXT_PUBLIC_API_URL` environment variable.
+
+### 🔌 Backend (Server)
+- **Framework**: Node.js / Express
+- **Deployment**: Can be deployed to **Render, Heroku, or DigitalOcean**.
+- **Database**: Connects to **MongoDB Atlas** (Cloud) or a local MongoDB instance.
+
+### 🗄️ Database (MongoDB)
+- Data is persistent and managed through Mongoose models. Initial data can be generated using the built-in seeding scripts.
+
+---
+
+## 🛠️ Available Scripts (Server)
+
+| Script | Description |
+| :--- | :--- |
+| `npm run seed` | Initializes the database with base user and system data. |
+| `npm run generate-properties` | Generates 200+ sample property listings for the platform. |
+| `npm start` | Starts the production server. |
+| `npm run dev` | Starts the server with `nodemon` for auto-restart. |
 
 ---
 
