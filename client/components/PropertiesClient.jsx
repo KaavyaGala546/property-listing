@@ -4,9 +4,16 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Navbar from './navbar';
 import Footer from './footer';
-import PropertyCard from './properties/PropertyCard';
+import dynamic from 'next/dynamic';
+import PropertiesList from './PropertiesList';
 import PropertySearch from './PropertySearch';
-import Recommendations from './recommendations/Recommendations';
+import Recommendations from './Recommendations';
+
+// Dynamically import MapView to avoid SSR issues with Leaflet
+const MapView = dynamic(() => import('./map/MapView'), { 
+  ssr: false,
+  loading: () => <div className="h-[400px] w-full bg-gray-100 animate-pulse rounded-xl flex items-center justify-center text-gray-400 font-medium">Initializing Map Engine...</div>
+});
 import { api } from '../services/api';
 import { properties as localProperties } from '../app/data/properties';
 
@@ -25,8 +32,10 @@ export default function PropertiesPage() {
 
   const [properties, setProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'map'
   const [pagination, setPagination] = useState({
     page: 1,
     total: 0,
@@ -37,7 +46,8 @@ export default function PropertiesPage() {
   // Fetch properties with pagination and filters
   const fetchProperties = async () => {
     try {
-      setIsLoading(true);
+      setLoading(true);
+      setError(null);
       const params = {
         page,
         limit: ITEMS_PER_PAGE,
@@ -71,12 +81,13 @@ export default function PropertiesPage() {
       }
     } catch (error) {
       console.error('Error fetching properties:', error);
+      setError(error);
       const startIndex = (page - 1) * ITEMS_PER_PAGE;
       const localSlice = localProperties.slice(startIndex, startIndex + ITEMS_PER_PAGE);
       setProperties(localSlice);
       setFilteredProperties(localSlice);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -160,7 +171,7 @@ export default function PropertiesPage() {
             maxPriceQuery) && (
             <div className="mt-4 flex items-center justify-between">
               <p className="text-gray-600">
-                {isLoading
+                {loading
                   ? 'Loading...'
                   : `Found ${pagination.total} ${pagination.total === 1 ? 'property' : 'properties'}`}
               </p>
@@ -175,20 +186,12 @@ export default function PropertiesPage() {
         </div>
 
         {/* Loading State */}
-        {isLoading ? (
+        {loading ? (
           <div className="flex justify-center items-center py-16">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
           </div>
         ) : (
           <>
-            {/* Properties Grid */}
-            {filteredProperties.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-                {filteredProperties.map((property) => (
-                  <PropertyCard key={property.id || property._id} property={property} />
-                ))}
-              </div>
-            ) : (
               <div className="text-center py-16">
                 <p className="text-xl text-gray-500 mb-4">
                   No properties found matching your criteria
