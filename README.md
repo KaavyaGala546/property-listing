@@ -1,4 +1,4 @@
-# Property Listing Platform
+# Property Listing Platform (Full-Stack Real Estate System)
 
 > Full-stack web application for discovering, filtering, and managing property listings with a scalable backend architecture.
 
@@ -6,26 +6,31 @@
 
 ## 🚀 Key Features
 
-- Browse and explore multiple property listings  
-- Dynamic filtering for improved property discovery  
+- Explore property listings through a dynamic, responsive interface  
+- Filter properties based on user preferences for faster discovery  
+- Secure authentication system for controlled user access  
+- Efficient backend APIs for handling property data and queries  
+- Smooth user experience with responsive frontend design   
 - User authentication and secure access control  
 - Responsive UI for smooth user experience  
 - Backend APIs for efficient data handling  
 
 ---
 
+## 🚀 Key Impact
+
+- Enables faster property discovery compared to manual browsing  
+- Handles structured property data with efficient API design  
+- Simulates real-world full-stack application architecture
+
+---
+
 ## 📸 Preview
 
 <p align="center">
-  <img src="assets/screenshots/homepage.png" alt="Property Platform Preview" width="800"/>
-</p>
-
-<p align="center">
-  <img src="assets/screenshots/property_library.png" alt="Property Library" width="800"/>
-</p>
-
-<p align="center">
-  <img src="assets/screenshots/book_a_call.png" alt="Call to Action" width="800"/>
+  <img src="assets/screenshots/homepage.png" width="30%"/>
+  <img src="assets/screenshots/property_library.png" width="30%"/>
+  <img src="assets/screenshots/book_a_call.png" width="30%"/>
 </p>
 
 ---
