@@ -17,7 +17,15 @@
 ## 📸 Preview
 
 <p align="center">
-  <img src="assets/preview.png" alt="Property Platform Preview" width="800"/>
+  <img src="assets/screenshots/homepage.png" alt="Property Platform Preview" width="800"/>
+</p>
+
+<p align="center">
+  <img src="assets/screenshots/property_library.png" alt="Property Library" width="800"/>
+</p>
+
+<p align="center">
+  <img src="assets/screenshots/book_a_call.png" alt="Call to Action" width="800"/>
 </p>
 
 ---
