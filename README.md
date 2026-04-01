@@ -1,208 +1,171 @@
-# 🏡 Property Listing Platform
+# Property Listing Platform
 
-A full-stack real estate web application that enables users to browse, search, and interact with property listings through a modern, responsive interface. Built with industry-standard technologies, this platform delivers a seamless experience for discovering and managing real estate properties.
-
----
-
-## 🚀 Live Demo
-
-🔗 https://property-listing-amber.vercel.app
-<!-- Replace with your actual deployed URL -->
+> Full-stack web application for discovering, filtering, and managing property listings with a scalable backend architecture.
 
 ---
 
-## 📌 Features
+## 🚀 Key Features
 
-### 🔍 Property Discovery
-- Browse available property listings
-- Search properties by relevant criteria
-- Filter listings based on user preferences
-
-### 🏠 Property Details
-- View detailed property information
-- Explore images, descriptions, pricing, and location
-
-### 👤 User Authentication
-- Secure registration and login
-- JWT-based authentication
-- Protected routes
-
-### ❤️ User Interaction
-- Save or favorite properties
-- Manage saved listings
-
-### 📱 Responsive Design
-- Works across desktop, tablet, and mobile
-- Clean and intuitive UI
+- Browse and explore multiple property listings  
+- Dynamic filtering for improved property discovery  
+- User authentication and secure access control  
+- Responsive UI for smooth user experience  
+- Backend APIs for efficient data handling  
 
 ---
 
-## 🛠️ Tech Stack
+## 📸 Preview
 
-### Frontend
-- Next.js
-- React.js
-- Tailwind CSS
+<p align="center">
+  <img src="assets/preview.png" alt="Property Platform Preview" width="800"/>
+</p>
 
-### Backend
+---
+
+## 🧠 Overview
+
+This project is a full-stack property discovery platform designed to simulate real-world real estate applications.
+
+It enables users to:
+- Browse available properties  
+- Filter listings based on preferences  
+- Interact with a responsive and dynamic interface  
+
+The system is built with a focus on **clean architecture, scalability, and real-world usability**, rather than just basic CRUD functionality.
+
+---
+
+## ⚙️ System Architecture
+
+    Frontend (React)
+            │
+            ▼
+    API Layer (Node.js / Express)
+            │
+            ▼
+    Database (MongoDB)
+            │
+            ▼
+    Authentication Layer (JWT-based)
+
+---
+
+## 🔍 Core Functionality
+
+### 🖥 Frontend
+- Built using React for dynamic UI  
+- Component-based architecture for scalability  
+- Handles user interactions and state management  
+
+### ⚙️ Backend
+- RESTful APIs using Express  
+- Handles routing, business logic, and data flow  
+- Structured for modular and maintainable code  
+
+### 🗄 Database
+- MongoDB for flexible data storage  
+- Designed to handle structured property data  
+- Enables efficient querying and filtering  
+
+### 🔐 Authentication
+- Secure user authentication system  
+- Enables controlled access to features  
+
+---
+
+## 📊 Example Workflow
+
+**User Action**
+- User searches or filters properties  
+
+**System Processing**
+- Request sent to backend API  
+- Data fetched from database  
+- Results filtered and returned  
+
+**Output**
+- Filtered property listings displayed dynamically  
+
+---
+
+## 🛠 Tech Stack
+
+**Frontend**
+- React
+- JavaScript / TypeScript
+- HTML / CSS
+
+**Backend**
 - Node.js
-- Express.js
+- Express
+
+**Database**
 - MongoDB
-- Mongoose
-
-### Tools
-- JWT Authentication
-- Vercel (Deployment)
 
 ---
 
-## 🏗️ Project Structure
+## 🎯 Design Focus
 
-property-listing/
-│
-├── client/                 # Frontend
-│   ├── components/
-│   ├── pages/
-│   ├── styles/
-│   └── package.json
-│
-├── server/                 # Backend
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   └── package.json
-│
-└── README.md
+- Build **scalable full-stack systems**, not just UI  
+- Maintain **clean separation between frontend and backend**  
+- Ensure **efficient data flow and API structure**  
+- Focus on **real-world application behavior**  
 
 ---
 
-## ⚙️ Installation & Setup
+## 📁 Project Structure
 
-### 1. Clone Repository
-git clone https://github.com/KaavyaGala546/property-listing.git
-cd property-listing
-
-### 2. Backend Setup
-cd server
-npm install
-
-Create `.env` file:
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-
-Run backend:
-npm run dev
-
-### 3. Frontend Setup
-cd client
-npm install
-npm run dev
+    property-listing/
+    ├── client/
+    ├── server/
+    │   ├── routes/
+    │   ├── controllers/
+    │   ├── models/
+    ├── package.json
 
 ---
 
-## 🔗 API Endpoints
+## ⚙️ Local Setup
 
-### Auth
-- POST /api/auth/register
-- POST /api/auth/login
+    git clone https://github.com/KaavyaGala546/property-listing.git
+    cd property-listing
 
-### Properties
-- GET /api/properties
-- GET /api/properties/:id
-- POST /api/properties
+    # Install dependencies
+    npm install
 
-### User
-- GET /api/user/profile
-
-### Favorites
-- POST /api/cart
-- GET /api/cart
+    # Run frontend & backend
+    npm run dev
 
 ---
 
-## 🧠 Architecture
+## 🚧 Limitations
 
-- Frontend (Next.js) communicates with backend via REST APIs
-- Backend (Express) handles logic and authentication
-- MongoDB stores all data
-- JWT secures protected routes
-
----
-
-## 🌟 Highlights
-
-- Full-stack architecture
-- Real-world project
-- Clean UI + scalable backend
-- Authentication system
-
----
-
-## 🧪 Testing
-
-To be added:
-- Unit tests
-- API tests
-- End-to-end tests
-
----
-
-## 🔐 Environment Variables
-
-| Variable     | Description |
-|--------------|-------------|
-| PORT         | Server port |
-| MONGO_URI    | Database URI |
-| JWT_SECRET   | Auth secret |
+- Basic filtering capabilities (can be expanded further)  
+- No advanced search or recommendation system yet  
+- UI can be extended with richer interactions  
 
 ---
 
 ## 🚀 Future Improvements
 
-- Map-based search
-- AI recommendations
-- Email notifications
-- Admin dashboard
-- Chat system
-
----
-
-## 📸 Screenshots
-
-(Add your images here)
-
----
-
-## 🤝 Contributing
-
-1. Fork repo  
-2. Create branch  
-3. Commit changes  
-4. Push  
-5. Open PR  
-
----
-
-## 📄 License
-
-MIT License
+- Advanced filtering and search system  
+- Saved listings / user preferences  
+- Image upload and media handling  
+- Map-based property visualization  
+- Performance optimizations  
 
 ---
 
 ## 👨‍💻 Author
 
-Kaavya Gala  
-https://github.com/KaavyaGala546
+**Kaavya Gala**  
+Full Stack Developer  
+
+GitHub: https://github.com/KaavyaGala546  
 
 ---
 
-## ⭐ Portfolio Value
+## 💡 Final Note
 
-Demonstrates:
-- Full-stack development
-- API design
-- Database integration
-- Authentication
-- Modern UI development
+This project focuses on building a **real-world full-stack system** —  
+not just a frontend interface, but a complete application with backend logic, database design, and user interaction.
